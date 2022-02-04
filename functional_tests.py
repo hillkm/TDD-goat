@@ -10,6 +10,11 @@ class NewVisitorTest(unittest.TestCase):
 
     def tearDown(self):
         self.browser.quit()
+    
+    def check_for_row_in_list_table(self, row_text):
+        table = self.browser.find_element_by_id('id_list_table')
+        rows = table.find_elements_by_tag_name('tr')
+        self.assertIn(row_text, [row.text for row in rows])
 
     def test_start_list_and_retrieve_later(self):
         # Alice opens her browser and navigates to the page
@@ -36,17 +41,20 @@ class NewVisitorTest(unittest.TestCase):
         
         table = self.browser.find_element_by_id('id_list_table')
         rows = table.find_elements_by_tag_name('tr')
-        self.assertTrue(
-                any(row.text == '1: Investigate JNDI injection' for row in rows),
-                "New row does not appear in table"
-        )
+        self.check_for_row_in_list_table('1: Investigate JNDI injection')
 
         # Typing into the text box again, she enters 'Check affected servers'
-        self.fail('Finish the test')
+        inputbox = self.browser.find_element_by_id('id_new_item')
+        inputbox.send_keys('Check affected servers')
+        inputbox.send_keys(Keys.ENTER)
+        time.sleep(1)
 
         # Both items should display properly
+        self.check_for_row_in_list_table('1: Investigate JNDI injection')
+        self.check_for_row_in_list_table('2: Check affected servers')
 
         # Text explains that the url for her list is unique and will remember her entries
+        self.fail('Finish the test')
 
         # She revisits the list to ensure that is the case
 
