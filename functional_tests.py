@@ -24,20 +24,21 @@ class NewVisitorTest(unittest.TestCase):
         inputbox = self.browser.find_element_by_id('id_new_item')
         self.assertEqual(
                 inputbox.get_attribute('placeholder'),
-                'Enter a to-do task'
+                "Enter a to-do task"
         )
 
         # She sets a new task: Investigate JNDI vuln
         inputbox.send_keys('Investigate JNDI injection')
 
         # When she hits Enter, the page updates and lists the new task
-        inputbox.send_keys(Keys.Enter)
+        inputbox.send_keys(Keys.ENTER)
         time.sleep(1)
         
         table = self.browser.find_element_by_id('id_list_table')
         rows = table.find_elements_by_tag_name('tr')
         self.assertTrue(
-                any(row.text == '1: Investigate JNDI injection' for row in rows)
+                any(row.text == '1: Investigate JNDI injection' for row in rows),
+                "New row does not appear in table"
         )
 
         # Typing into the text box again, she enters 'Check affected servers'
