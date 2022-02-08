@@ -97,7 +97,7 @@ class NewVisitorTest(LiveServerTestCase):
         self.assertNotIn('Check affected servers', page_text)
 
         # Bob starts a new list
-        inputbox = self.browser.get_element_by_id('id_new_item')
+        inputbox = self.browser.find_element_by_id('id_new_item')
         inputbox.send_keys('Setup dev environment')
         inputbox.send_keys(Keys.ENTER)
         self.wait_for_row_in_list_table('1: Setup dev environment')
