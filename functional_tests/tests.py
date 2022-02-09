@@ -109,7 +109,7 @@ class NewVisitorTest(LiveServerTestCase):
 
         # Bob cannot see Eve's list, but can see his own entries
         page_text = self.browser.find_element_by_tag_name('body').text
-        self.assertNotIn('Investigate JNDI injection')
-        self.assertIn('Setup dev environment')
+        self.assertNotIn('Investigate JNDI injection', page_text)
+        self.assertIn('Setup dev environment', page_text)
 
         # both users navigate away from the page
